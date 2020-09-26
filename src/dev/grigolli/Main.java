@@ -1,13 +1,16 @@
 package dev.grigolli;
 
+import dev.grigolli.colecao.ListaPontos;
+import dev.grigolli.menu.Menu;
+
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
 
         String opcaoMenuStr;
         Integer opcaoMenu = 0;
+        ListaPontos listaPontos = new ListaPontos(10); // Talvez mudar para pedir ao usuario um numero de pontos
 
         do {
             do {
@@ -43,6 +46,9 @@ public class Main {
                             elemento = Integer.parseInt(elementoStr);
                         }
                     } while(elemento == null);
+
+                    Menu.adicionarElementoFinal(listaPontos, elemento);
+
                     break;
 
                 case 2:
@@ -56,19 +62,25 @@ public class Main {
                             elemento = Integer.parseInt(elementoStr);
                         }
                     } while(elemento == null);
+
+                    Menu.adicionarElementoInicio(listaPontos, elemento);
+
                     break;
 
                 case 3:
 
                     do {
-                        String elementoStr = JOptionPane.showInputDialog(null, "Insira o valor do elemento");
+                        String elementoStr = JOptionPane.showInputDialog(null, "Insira o valor do elemento a ser buscado");
                         if(elementoStr == null || elementoStr.isBlank()){
                             elemento = null;
-                            JOptionPane.showMessageDialog(null,"Favor inserir um valor para o elemento");
+                            JOptionPane.showMessageDialog(null,"Favor inserir um elemento");
                         } else {
                             elemento = Integer.parseInt(elementoStr);
                         }
                     } while(elemento == null);
+
+                    Menu.buscarIndice(listaPontos, elemento);
+
                     break;
 
                 case 4:
@@ -81,19 +93,19 @@ public class Main {
                             elemento = Integer.parseInt(elementoStr);
                         }
                     } while(elemento == null);
+
+                    Menu.removerElemento(listaPontos, elemento);
+
                     break;
 
                 case 5:
-                    System.exit(0);
+                    //Menu.calcularDistanciaMaisDistantes(listaPontos, elemento);
                     break;
                 case 6:
-                    System.exit(0);
+                    //Menu.pontosDentroDoCirculo(listaPontos, circulo)
                     break;
                 case 7:
                     System.exit(0);
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Opção inválida!");
                     break;
             }
 
