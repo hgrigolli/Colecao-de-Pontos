@@ -1,4 +1,4 @@
-package dev.grigolli.colecao;
+package dev.grigolli.exception;
 
 public class NaoFoiPossivelIncluirException extends Exception {
 

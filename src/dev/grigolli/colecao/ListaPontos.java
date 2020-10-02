@@ -1,8 +1,13 @@
 package dev.grigolli.colecao;
 
+import dev.grigolli.exception.NaoFoiPossivelIncluirException;
+import dev.grigolli.exception.PosicaoInvalidaException;
+import dev.grigolli.exception.QuantidadeInvalidaExceptions;
+
 public class ListaPontos {
     private Ponto pontos[];
     private int validos;
+    
 
     public ListaPontos(int n){
         this.pontos = new Ponto[n];
@@ -20,9 +25,9 @@ public class ListaPontos {
         this.pontos[i] = ponto;
         this.validos++;
     }
-    public void adicionaPosicao(Ponto ponto, int posicao) throws NaoFoiPossivelIncluirException {
+    public void adicionaPosicao(Ponto ponto, int posicao) throws NaoFoiPossivelIncluirException, PosicaoInvalidaException {
         if(posicao >= this.pontos.length){
-            throw new NaoFoiPossivelIncluirException("Posição " + posicao + " inválida. ");
+            throw new PosicaoInvalidaException("Posição " + posicao + " inválida. ");
         }
         if (this.pontos[posicao] != null) {
             if(this.validos == this.pontos.length){
@@ -45,6 +50,34 @@ public class ListaPontos {
             this.validos++;
         }
 
+    }
+
+    public Double encontrarMaiorDistancia() throws QuantidadeInvalidaExceptions {
+        if(this.validos < 2){
+            throw new QuantidadeInvalidaExceptions("Quantidade de pontos na coleção é menor do que dois");
+        }
+        Double maiorDistancia = (double) 0;
+        for(int i = 0; i < this.validos; i++){
+            Ponto p1 = this.pontos[i];
+            for(int j = i+1; j < this.validos; j++){
+                Ponto p2 = this.pontos[j];
+                Double distancia = distanciaEntreDoisPontos(p1, p2);
+                if(distancia > maiorDistancia){
+                    maiorDistancia = distancia;
+                }
+            }
+
+        }
+
+        return maiorDistancia;
+
+    }
+
+    private Double distanciaEntreDoisPontos(Ponto p1, Ponto p2){
+        int deltaX = p1.getX() - p2.getX();
+        int deltaY = p1.getY() - p2.getY();
+
+        return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
     }
 
     @Override

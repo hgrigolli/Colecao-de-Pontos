@@ -1,8 +1,10 @@
 package dev.grigolli;
 
 import dev.grigolli.colecao.ListaPontos;
-import dev.grigolli.colecao.NaoFoiPossivelIncluirException;
+import dev.grigolli.exception.NaoFoiPossivelIncluirException;
 import dev.grigolli.colecao.Ponto;
+import dev.grigolli.exception.PosicaoInvalidaException;
+import dev.grigolli.exception.QuantidadeInvalidaExceptions;
 
 import javax.swing.*;
 
@@ -103,7 +105,7 @@ public class Main {
 
                     try {
                         listaPontos.adicionaPosicao(elemento, pos);
-                    } catch (NaoFoiPossivelIncluirException e) {
+                    } catch (NaoFoiPossivelIncluirException | PosicaoInvalidaException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
 
@@ -141,7 +143,14 @@ public class Main {
                     break;
 
                 case 5:
-                    //Menu.calcularDistanciaMaisDistantes(listaPontos, elemento);
+
+                    try {
+                        Double maiorDistancia = listaPontos.encontrarMaiorDistancia();
+                        JOptionPane.showMessageDialog(null, "A maior distância entre dois pontos da coleção é: " + maiorDistancia);
+                    } catch (QuantidadeInvalidaExceptions e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+
                     break;
                 case 6:
                     //Menu.pontosDentroDoCirculo(listaPontos, circulo)
