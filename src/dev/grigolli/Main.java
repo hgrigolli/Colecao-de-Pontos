@@ -1,6 +1,7 @@
 package dev.grigolli;
 
 import dev.grigolli.colecao.ListaPontos;
+import dev.grigolli.colecao.NaoFoiPossivelIncluirException;
 import dev.grigolli.colecao.Ponto;
 
 import javax.swing.*;
@@ -10,12 +11,15 @@ public class Main {
 
         String opcaoMenuStr;
         Integer opcaoMenu = 0;
-        ListaPontos listaPontos = new ListaPontos(10); // Talvez mudar para pedir ao usuario um numero de pontos
+        ListaPontos listaPontos = new ListaPontos(3); // Talvez mudar para pedir ao usuario um numero de pontos
 
         do {
             do {
 
-                opcaoMenuStr = JOptionPane.showInputDialog("========MENU DE OPÇÕES========\n\n" +
+                opcaoMenuStr = JOptionPane.showInputDialog(
+                        "Henrique Nóbrega Grigolli - 41821661\n" +
+                        "Kleber Takashi Yoshida - 41843533\n\n" +
+                        "========MENU DE OPÇÕES========\n\n" +
                         "1. Adicionar um elemento no final da coleção\n" +
                         "2. Adicionar um elemento em uma posição da coleção\n" +
                         "3. Retornar o índice da primeira ocorrência de um elemento especificado na coleção\n" +
@@ -23,7 +27,8 @@ public class Main {
                         "5. Calcular a distância dos dois pontos mais distantes na coleção\n" +
                         "6. Retornar uma coleção de pontos contido em um círculo\n" +
                         "7. Sair do programa\n\n" +
-                        "Coleção atual: " + listaPontos.toString());
+                        "Coleção atual: " + listaPontos.toString() + "\n" +
+                        "Coleção possui " + listaPontos.getValidos() + " elementos de " + listaPontos.getPontos().length + "\n\n");
 
                 if(opcaoMenuStr == null || opcaoMenuStr.isBlank()){
                     opcaoMenu = null;
@@ -57,12 +62,16 @@ public class Main {
                         }
                     } while(elemento == null);
 
-                    listaPontos.adicionaFinal(elemento);
+                    try {
+                        listaPontos.adicionaFinal(elemento);
+                    } catch (NaoFoiPossivelIncluirException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
 
                     break;
 
                 case 2:
-
+                    int pos = 0;
                     do {
                         JTextField x = new JTextField();
                         JTextField y = new JTextField();
@@ -77,10 +86,14 @@ public class Main {
 
                         int option = JOptionPane.showConfirmDialog(null, ponto, "Defina o ponto (x,y) e a posição a ser inserida", JOptionPane.OK_CANCEL_OPTION);
 
+
                         if (option == JOptionPane.OK_OPTION) {
                             if(x.getText() != null && y.getText() !=null){
                                 elemento = new Ponto(Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
 
+                            }
+                            if(posicao.getText() != null){
+                                pos = Integer.parseInt(posicao.getText());
                             }
                         } else {
                             elemento = null;
@@ -88,7 +101,11 @@ public class Main {
                         }
                     } while(elemento == null);
 
-                    listaPontos.adicionaFinal(elemento);
+                    try {
+                        listaPontos.adicionaPosicao(elemento, pos);
+                    } catch (NaoFoiPossivelIncluirException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
 
                     break;
 
