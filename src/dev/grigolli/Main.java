@@ -2,6 +2,7 @@ package dev.grigolli;
 
 import dev.grigolli.colecao.ListaPontos;
 import dev.grigolli.exception.NaoFoiPossivelIncluirException;
+import dev.grigolli.exception.NaoFoiPossivelRemoverException;
 import dev.grigolli.colecao.Ponto;
 import dev.grigolli.exception.PosicaoInvalidaException;
 import dev.grigolli.exception.QuantidadeInvalidaExceptions;
@@ -112,34 +113,67 @@ public class Main {
                     break;
 
                 case 3:
-
-                    do {
-                        String elementoStr = JOptionPane.showInputDialog(null, "Insira o valor do elemento a ser buscado");
-                        if(elementoStr == null || elementoStr.isBlank()){
-                            elemento = null;
-                            JOptionPane.showMessageDialog(null,"Favor inserir um elemento");
+                	
+                	boolean achou = false;
+                	
+                	do {
+                    	JTextField x = new JTextField();
+                        JTextField y = new JTextField();
+                        
+                        Object[] ponto = {
+                                "Defina o ponto (x,y) para realizar a busca", null,
+                                "X: ", x,
+                                "Y: ", y,
+                        };
+                    	
+                    	int elementoBuscado = JOptionPane.showConfirmDialog(null, ponto, "Insira o valor do elemento a ser buscado", JOptionPane.OK_CANCEL_OPTION);
+                    	if (elementoBuscado == JOptionPane.OK_OPTION) {
+                            if(x.getText() != null && y.getText() !=null){
+                                elemento = new Ponto(Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
+                            }
                         } else {
-                            //elemento = Integer.parseInt(elementoStr);
+                            elemento = null;
+                            break;
                         }
                     } while(elemento == null);
 
-                    //Menu.buscarIndice(listaPontos, elemento);
+                    for (int i = 0; i < listaPontos.getValidos(); i++) {
+                		if (elemento.igual(listaPontos.getPontos()[i])) {
+                    		achou = true;
+                			String mensagem = "Encontrado na posicao " + i + " da lista.";
+                    		JOptionPane.showMessageDialog(null, mensagem);
+                    		break;
+                    	}
+                    }
+                	
+                    if (achou == false) {
+                		String mensagemNaoEncontrado = "Ponto nao se encontra na lista ";
+                		JOptionPane.showMessageDialog(null, mensagemNaoEncontrado); 
+                	}
 
                     break;
 
                 case 4:
-                   do {
-                        String elementoStr = JOptionPane.showInputDialog(null, "Insira o valor do elemento");
+                   
+                	int posicao = 0;
+                	boolean informouPosicao = false;
+                	
+                	do {
+                        String elementoStr = JOptionPane.showInputDialog(null, "Insira a posicao do elemento na lista que deseja remover.");
                         if(elementoStr == null || elementoStr.isBlank()){
-                            elemento = null;
-                            JOptionPane.showMessageDialog(null,"Favor inserir um valor para o elemento");
+                            JOptionPane.showMessageDialog(null,"Favor informar uma posicao da lista");
                         } else {
-                            //elemento = Integer.parseInt(elementoStr);
+                        	informouPosicao = true;
+                        	posicao = Integer.parseInt(elementoStr);
                         }
-                    } while(elemento == null);
-
-                    //Menu.removerElemento(listaPontos, elemento);
-
+                    } while(informouPosicao == false);
+         
+                    try {
+                    	listaPontos.removePonto(posicao);
+                    } catch (NaoFoiPossivelRemoverException | PosicaoInvalidaException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                	
                     break;
 
                 case 5:

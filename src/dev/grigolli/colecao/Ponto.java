@@ -14,6 +14,10 @@ public class Ponto {
     public int getY() {
         return y;
     }
+    
+    public boolean igual(Ponto p) {
+    	return this.x == p.x && this.y == p.y;
+    }
 
     @Override
     public String toString(){

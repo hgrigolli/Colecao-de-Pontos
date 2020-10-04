@@ -1,6 +1,7 @@
 package dev.grigolli.colecao;
 
 import dev.grigolli.exception.NaoFoiPossivelIncluirException;
+import dev.grigolli.exception.NaoFoiPossivelRemoverException;
 import dev.grigolli.exception.PosicaoInvalidaException;
 import dev.grigolli.exception.QuantidadeInvalidaExceptions;
 
@@ -79,6 +80,26 @@ public class ListaPontos {
 
         return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
     }
+    
+    
+    public void removePonto(int posicao) throws NaoFoiPossivelRemoverException, PosicaoInvalidaException {
+        if(posicao >= this.pontos.length){
+            throw new PosicaoInvalidaException("Posição " + posicao + " inválida. ");
+        }
+        if (this.pontos[posicao] != null) {
+            if(posicao > this.validos){
+                throw new NaoFoiPossivelRemoverException("A posicao � maior que o tamanho da lista atual.");
+            } else {
+                //Desloca para esquerda
+                for(int i = posicao + 1; i < this.validos; i++){
+                    this.pontos[i-1] = this.pontos[i];
+                    this.pontos[i] = null;
+                }
+                validos--;
+            }
+        } 
+    }
+    
 
     @Override
     public String toString(){
