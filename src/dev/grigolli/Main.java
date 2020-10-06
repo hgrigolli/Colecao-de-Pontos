@@ -15,7 +15,7 @@ public class Main {
 
         String opcaoMenuStr;
         Integer opcaoMenu = 0;
-        ListaPontos listaPontos = new ListaPontos(3); // Talvez mudar para pedir ao usuario um numero de pontos
+        ListaPontos listaPontos = new ListaPontos(10); // Talvez mudar para pedir ao usuario um numero de pontos
 
         do {
             do {
