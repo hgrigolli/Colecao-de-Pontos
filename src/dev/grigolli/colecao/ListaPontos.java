@@ -21,18 +21,18 @@ public class ListaPontos {
             i++;
         }
         if(this.validos == this.pontos.length){
-            throw new NaoFoiPossivelIncluirException("Coleção atual já está completa.");
+            throw new NaoFoiPossivelIncluirException("Colecao atual ja esta completa.");
         }
         this.pontos[i] = ponto;
         this.validos++;
     }
     public void adicionaPosicao(Ponto ponto, int posicao) throws NaoFoiPossivelIncluirException, PosicaoInvalidaException {
         if(posicao >= this.pontos.length){
-            throw new PosicaoInvalidaException("Posição " + posicao + " inválida. ");
+            throw new PosicaoInvalidaException("Posicao " + posicao + " invalida. ");
         }
         if (this.pontos[posicao] != null) {
             if(this.validos == this.pontos.length){
-                throw new NaoFoiPossivelIncluirException("Coleção atual já está completa.");
+                throw new NaoFoiPossivelIncluirException("Colecao atual ja esta completa.");
             } else {
                 //Desloca para direita
                 for(int i = this.validos - 1; i >= posicao; i--){
@@ -55,7 +55,7 @@ public class ListaPontos {
 
     public Double encontrarMaiorDistancia() throws QuantidadeInvalidaExceptions {
         if(this.validos < 2){
-            throw new QuantidadeInvalidaExceptions("Quantidade de pontos na coleção é menor do que dois");
+            throw new QuantidadeInvalidaExceptions("Quantidade de pontos na colecao eh menor do que dois");
         }
         Double maiorDistancia = (double) 0;
         for(int i = 0; i < this.validos; i++){
@@ -82,19 +82,22 @@ public class ListaPontos {
     }
     
     
+    //metodo que remove o elemento da lista a partir do parametro posicao (informada pelo usuario)
     public void removePonto(int posicao) throws NaoFoiPossivelRemoverException, PosicaoInvalidaException {
-        if(posicao >= this.pontos.length){
-            throw new PosicaoInvalidaException("Posição " + posicao + " inválida. ");
+    	//condicao de input valido pelo usuario
+    	if(posicao >= this.pontos.length){ 
+            throw new PosicaoInvalidaException("Posicao " + posicao + " invalida. ");
         }
         if (this.pontos[posicao] != null) {
             if(posicao > this.validos){
                 throw new NaoFoiPossivelRemoverException("A posicao � maior que o tamanho da lista atual.");
             } else {
-                //Desloca para esquerda
-                for(int i = posicao + 1; i < this.validos; i++){
+                //Desloca os elementos para a esquerda e atualiza o numero valido de elementos na lista de pontos
+                for(int i = posicao+1; i < this.validos; i++){
                     this.pontos[i-1] = this.pontos[i];
-                    this.pontos[i] = null;
+                    
                 }
+                this.pontos[this.validos-1] = null;
                 validos--;
             }
         } 

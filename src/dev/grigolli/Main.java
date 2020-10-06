@@ -1,5 +1,6 @@
 package dev.grigolli;
 
+import dev.grigolli.colecao.Circulo;
 import dev.grigolli.colecao.ListaPontos;
 import dev.grigolli.exception.NaoFoiPossivelIncluirException;
 import dev.grigolli.exception.NaoFoiPossivelRemoverException;
@@ -20,22 +21,22 @@ public class Main {
             do {
 
                 opcaoMenuStr = JOptionPane.showInputDialog(
-                        "Henrique Nóbrega Grigolli - 41821661\n" +
+                        "Henrique Nobrega Grigolli - 41821661\n" +
                         "Kleber Takashi Yoshida - 41843533\n\n" +
-                        "========MENU DE OPÇÕES========\n\n" +
-                        "1. Adicionar um elemento no final da coleção\n" +
-                        "2. Adicionar um elemento em uma posição da coleção\n" +
-                        "3. Retornar o índice da primeira ocorrência de um elemento especificado na coleção\n" +
-                        "4. Remover um elemento em uma posição na coleção\n" +
-                        "5. Calcular a distância dos dois pontos mais distantes na coleção\n" +
-                        "6. Retornar uma coleção de pontos contido em um círculo\n" +
+                        "========MENU DE OPCOES========\n\n" +
+                        "1. Adicionar um elemento no final da colecao\n" +
+                        "2. Adicionar um elemento em uma posicao da colecao\n" +
+                        "3. Retornar o indice da primeira ocorrencia de um elemento especificado na colecao\n" +
+                        "4. Remover um elemento em uma posicao na colecao\n" +
+                        "5. Calcular a distancia dos dois pontos mais distantes na colecao\n" +
+                        "6. Retornar uma colecao de pontos contido em um circulo\n" +
                         "7. Sair do programa\n\n" +
-                        "Coleção atual: " + listaPontos.toString() + "\n" +
-                        "Coleção possui " + listaPontos.getValidos() + " elementos de " + listaPontos.getPontos().length + "\n\n");
+                        "Colecao atual: " + listaPontos.toString() + "\n" +
+                        "Colecao possui " + listaPontos.getValidos() + " elementos de " + listaPontos.getPontos().length + "\n\n");
 
                 if(opcaoMenuStr == null || opcaoMenuStr.isBlank()){
                     opcaoMenu = null;
-                    JOptionPane.showMessageDialog(null,"Favor escolher uma opção.");
+                    JOptionPane.showMessageDialog(null,"Favor escolher uma opcao.");
                 } else {
                     opcaoMenu = Integer.parseInt(opcaoMenuStr);
                 }
@@ -81,13 +82,13 @@ public class Main {
                         JTextField posicao = new JTextField();
 
                         Object[] ponto = {
-                                "Defina o ponto (x,y) e a posição a ser inserida", null,
+                                "Defina o ponto (x,y) e a posicao a ser inserida", null,
                                 "X: ", x,
                                 "Y: ", y,
                                 "Posicao: ", posicao
                         };
 
-                        int option = JOptionPane.showConfirmDialog(null, ponto, "Defina o ponto (x,y) e a posição a ser inserida", JOptionPane.OK_CANCEL_OPTION);
+                        int option = JOptionPane.showConfirmDialog(null, ponto, "Defina o ponto (x,y) e a posicao a ser inserida", JOptionPane.OK_CANCEL_OPTION);
 
 
                         if (option == JOptionPane.OK_OPTION) {
@@ -114,8 +115,9 @@ public class Main {
 
                 case 3:
                 	
-                	boolean achou = false;
+                	boolean achou = false; //flag para verificar se achou o ponto
                 	
+                	//criando a chamada no menu para pesquisar um ponto na lista, a partir do input do usuario
                 	do {
                     	JTextField x = new JTextField();
                         JTextField y = new JTextField();
@@ -127,6 +129,7 @@ public class Main {
                         };
                     	
                     	int elementoBuscado = JOptionPane.showConfirmDialog(null, ponto, "Insira o valor do elemento a ser buscado", JOptionPane.OK_CANCEL_OPTION);
+                    	
                     	if (elementoBuscado == JOptionPane.OK_OPTION) {
                             if(x.getText() != null && y.getText() !=null){
                                 elemento = new Ponto(Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
@@ -137,6 +140,7 @@ public class Main {
                         }
                     } while(elemento == null);
 
+                	//percorre a lista de pontos e compara com os valores do input do usuario
                     for (int i = 0; i < listaPontos.getValidos(); i++) {
                 		if (elemento.igual(listaPontos.getPontos()[i])) {
                     		achou = true;
@@ -156,8 +160,9 @@ public class Main {
                 case 4:
                    
                 	int posicao = 0;
-                	boolean informouPosicao = false;
+                	boolean informouPosicao = false; 
                 	
+                	//criando a chamada no menu para o usuario informar o indice do elemento que deseja excluir
                 	do {
                         String elementoStr = JOptionPane.showInputDialog(null, "Insira a posicao do elemento na lista que deseja remover.");
                         if(elementoStr == null || elementoStr.isBlank()){
@@ -167,7 +172,8 @@ public class Main {
                         	posicao = Integer.parseInt(elementoStr);
                         }
                     } while(informouPosicao == false);
-         
+                	
+                	//chamada do metodo que exclui o elemento da lista de pontos
                     try {
                     	listaPontos.removePonto(posicao);
                     } catch (NaoFoiPossivelRemoverException | PosicaoInvalidaException e) {
@@ -180,15 +186,68 @@ public class Main {
 
                     try {
                         Double maiorDistancia = listaPontos.encontrarMaiorDistancia();
-                        JOptionPane.showMessageDialog(null, "A maior distância entre dois pontos da coleção é: " + maiorDistancia);
+                        JOptionPane.showMessageDialog(null, "A maior distancia entre dois pontos da colecao eh: " + maiorDistancia);
                     } catch (QuantidadeInvalidaExceptions e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
 
                     break;
+                    
                 case 6:
-                    //Menu.pontosDentroDoCirculo(listaPontos, circulo)
+                	
+                	Circulo circulo = new Circulo(elemento, 0.0); //objeto circulo para cada chamada do 'case 6', como default recebe todos os atributos iniciais como 0
+                	
+                	//criando a chamada no menu para criar o circulo a partir do input do usuario
+                	do {
+                    	JTextField x = new JTextField();
+                        JTextField y = new JTextField();
+                        JTextField raio = new JTextField();
+                        
+                        Object[] pontoDoCirculo = {
+                                "Defina o ponto (x,y) e o raio do circulo", null,
+                                "X: ", x,
+                                "Y: ", y,
+                                "Raio: ", raio,
+                        };
+                    	
+                        int option = JOptionPane.showConfirmDialog(null, pontoDoCirculo, "Defina o ponto (x,y) e o raio do circulo", JOptionPane.OK_CANCEL_OPTION);
+                        
+                        //verifica se os elementos foram preenchidos
+                        if (option == JOptionPane.OK_OPTION) {
+                            if(x.getText() != null && y.getText() !=null && raio.getText() !=null){
+                                elemento = new Ponto(Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
+                            }
+                            if (Double.valueOf(raio.getText()).doubleValue() <= 0) {
+                            	JOptionPane.showMessageDialog(null,"Valor do raio deve ser maior que 0."); //raio deve ser maior que 0
+                            	break;
+                            }
+                            circulo = new Circulo(elemento, Double.valueOf(raio.getText()).doubleValue()); //atualiza os valores do objeto circulo
+                        } else {
+                            elemento = null;
+                            break;
+                        }
+                    } while(elemento == null);
+                	
+                	
+                	ListaPontos listaPontosCirculo = new ListaPontos(listaPontos.getValidos()); //cria a lista de pontos que estarao no circulo
+                	
+                	try {
+                		for (int i = 0; i < listaPontos.getValidos(); i++ ) {
+                    		if (circulo.estaDentro(listaPontos.getPontos()[i])) { //chama o metodo que verifica se o ponto da lista principal esta no circulo (se true, adiciona na nova lista)
+                    			listaPontosCirculo.adicionaFinal(listaPontos.getPontos()[i]);
+                    		}	
+                    	}
+                	} catch (NaoFoiPossivelIncluirException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                	}
+                	
+                	//exibe na tela a lista de pontos que estao no circulo
+                	if (listaPontosCirculo != null) {
+                		JOptionPane.showMessageDialog(null,"Os pontos DENTRO do circulo sao: " + listaPontosCirculo.toString());
+                	} 
+                	
                     break;
+                    
                 case 7:
                     System.exit(0);
                     break;
