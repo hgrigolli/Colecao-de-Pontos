@@ -141,19 +141,15 @@ public class Main {
                     } while(elemento == null);
 
                 	//percorre a lista de pontos e compara com os valores do input do usuario
-                    for (int i = 0; i < listaPontos.getValidos(); i++) {
-                		if (elemento.igual(listaPontos.getPontos()[i])) {
-                    		achou = true;
-                			String mensagem = "Encontrado na posicao " + i + " da lista.";
-                    		JOptionPane.showMessageDialog(null, mensagem);
-                    		break;
-                    	}
-                    }
+                	int posicaoPonto = listaPontos.encontraPontoNaLista(elemento);
                 	
-                    if (achou == false) {
-                		String mensagemNaoEncontrado = "Ponto nao se encontra na lista ";
+                	if (posicaoPonto >= 0) {
+                    	String mensagem = "Encontrado na posicao " + posicaoPonto + " da lista.";
+                		JOptionPane.showMessageDialog(null, mensagem);
+                    } else {
+                    	String mensagemNaoEncontrado = "Ponto nao se encontra na lista ";
                 		JOptionPane.showMessageDialog(null, mensagemNaoEncontrado); 
-                	}
+                    }
 
                     break;
 
@@ -232,20 +228,12 @@ public class Main {
                 	ListaPontos listaPontosCirculo = new ListaPontos(listaPontos.getValidos()); //cria a lista de pontos que estarao no circulo
                 	
                 	try {
-                		for (int i = 0; i < listaPontos.getValidos(); i++ ) {
-                    		if (circulo.estaDentro(listaPontos.getPontos()[i])) { //chama o metodo que verifica se o ponto da lista principal esta no circulo (se true, adiciona na nova lista)
-                    			listaPontosCirculo.adicionaFinal(listaPontos.getPontos()[i]);
-                    		}	
-                    	}
+                		circulo.pontosNoCirculo(listaPontos, listaPontosCirculo); //chama o metodo para verificar quais pontos estao no circulo
                 	} catch (NaoFoiPossivelIncluirException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                 	}
                 	
-                	//exibe na tela a lista de pontos que estao no circulo
-                	if (listaPontosCirculo != null) {
-                		JOptionPane.showMessageDialog(null,"Os pontos DENTRO do circulo sao: " + listaPontosCirculo.toString());
-                	} 
-                	
+                	         	
                     break;
                     
                 case 7:

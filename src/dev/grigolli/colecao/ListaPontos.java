@@ -1,5 +1,7 @@
 package dev.grigolli.colecao;
 
+import javax.swing.JOptionPane;
+
 import dev.grigolli.exception.NaoFoiPossivelIncluirException;
 import dev.grigolli.exception.NaoFoiPossivelRemoverException;
 import dev.grigolli.exception.PosicaoInvalidaException;
@@ -101,6 +103,18 @@ public class ListaPontos {
                 validos--;
             }
         } 
+    }
+    
+    
+    //metodo para encontrar um ponto na lista de pontos
+    public int encontraPontoNaLista(Ponto p) {
+    	int i;
+    	for (i = 0; i < validos; i++) {
+    		if (p.igual(getPontos()[i])) {
+        		break;
+        	}
+        }
+    	return i;
     }
     
 
