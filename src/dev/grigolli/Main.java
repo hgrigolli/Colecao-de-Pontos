@@ -213,7 +213,7 @@ public class Main {
                             if(x.getText() != null && y.getText() !=null && raio.getText() !=null){
                                 elemento = new Ponto(Integer.parseInt(x.getText()), Integer.parseInt(y.getText()));
                             }
-                            if (Double.valueOf(raio.getText()).doubleValue() <= 0) {
+                            if (raio.getText() == null || Double.valueOf(raio.getText()).doubleValue() <= 0) {
                             	JOptionPane.showMessageDialog(null,"Valor do raio deve ser maior que 0."); //raio deve ser maior que 0
                             	break;
                             }
@@ -224,11 +224,12 @@ public class Main {
                         }
                     } while(elemento == null);
                 	
-                	
-                	ListaPontos listaPontosCirculo = new ListaPontos(listaPontos.getValidos()); //cria a lista de pontos que estarao no circulo
-                	
+
                 	try {
-                		circulo.pontosNoCirculo(listaPontos, listaPontosCirculo); //chama o metodo para verificar quais pontos estao no circulo
+                        ListaPontos listaPontosCirculo  = circulo.pontosNoCirculo(listaPontos); //chama o metodo que retorna a lista de pontos dentro do circulo
+                        if(listaPontosCirculo != null){
+                            JOptionPane.showMessageDialog(null,"Os pontos DENTRO do circulo sao: " + listaPontosCirculo.toString());
+                        }
                 	} catch (NaoFoiPossivelIncluirException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                 	}

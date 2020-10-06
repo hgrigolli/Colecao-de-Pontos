@@ -21,16 +21,15 @@ public class Circulo {
     
     
     //metodo que verifica os pontos que estao no circulo e insere em uma nova lista
-    public void pontosNoCirculo(ListaPontos listaPontos, ListaPontos listaPontosCirculo) throws NaoFoiPossivelIncluirException {
-    	for (int i = 0; i < listaPontos.getValidos(); i++ ) {
+    public ListaPontos pontosNoCirculo(ListaPontos listaPontos) throws NaoFoiPossivelIncluirException {
+        ListaPontos listaPontosCirculo = new ListaPontos(listaPontos.getValidos());
+        for (int i = 0; i < listaPontos.getValidos(); i++ ) {
     		if (estaDentro(listaPontos.getPontos()[i])) { //chama o metodo que verifica se o ponto da lista principal esta no circulo (se true, adiciona na nova lista)
     			listaPontosCirculo.adicionaFinal(listaPontos.getPontos()[i]);
     		}	
     	}
-    	//exibe na tela a lista de pontos que estao no circulo
-    	if (listaPontosCirculo != null) {
-    		JOptionPane.showMessageDialog(null,"Os pontos DENTRO do circulo sao: " + listaPontosCirculo.toString());
-    	} 
+
+        return listaPontosCirculo;
     }
     
 }
