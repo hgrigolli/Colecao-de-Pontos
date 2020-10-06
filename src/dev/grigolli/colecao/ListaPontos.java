@@ -111,10 +111,10 @@ public class ListaPontos {
     	int i;
     	for (i = 0; i < validos; i++) {
     		if (p.igual(getPontos()[i])) {
-        		break;
+        		return i;
         	}
         }
-    	return i;
+    	return -1;
     }
     
 
